@@ -103,6 +103,14 @@ func Scan(rows Rows, target interface{}) error {
 	return err
 }
 
+// ScanMapInterface ...
+func ScanMapInterface(data []map[string]interface{}, target interface{}) error {
+	if nil == target || reflect.ValueOf(target).IsNil() || reflect.TypeOf(target).Kind() != reflect.Ptr {
+		return ErrTargetNotSettable
+	}
+	return bindSlice(data, target)
+}
+
 // ScanMap returns the result in the form of []map[string]interface{}
 // json.Marshal encodes []byte as a base64 string, while in most cases
 // it's expected to be encoded as string or int. If you want this, use
